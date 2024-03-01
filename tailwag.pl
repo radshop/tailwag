@@ -58,11 +58,16 @@ for my $line (@lines[2..$#lines-2]) {
         $not_failed = lc($city_val) eq lc($city);
     }
 
-    # Check if a valid region parameter was passed
-    if ($not_failed and $region and exists $regions{$region}) {
-      # Test if hostname matches region
-      my $region_expr = $regions{$region};
-      $not_failed = $hostname =~ /$region_expr/i;
+    # process region parameter if provided
+    if ($not_failed and $region) {
+      # Check if a valid region parameter was passed
+      if (exists $regions{$region}) {
+        # Test if hostname matches region
+        my $region_expr = $regions{$region};
+        $not_failed = $hostname =~ /$region_expr/i;
+      } else {
+        $not_failed = 0;
+      }
     }
 
     if ($not_failed) {
