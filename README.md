@@ -13,6 +13,7 @@ Optional parameters
 
 Notes:
 
+* This is a pretty basic script developed for personal use and not intended to handle every possible scenario. For example, if the Tailscale client has both Mullvad and non-Mullvad exit nodes available, running the script with no parameters would presumably include the non-Mullvad exit nodes in the pool for selection. If country or city parameters are provided, unexpected results might occur if the host names accidentally match the provided pattern.
 * The country and city parameters use the code portions of the hostname. So for example, Manchester, UK, hosts follow the pattern `gb-mnc-wg-999.mullvad.ts.net`, in which the country code is 'gb' and the city code is 'mnc'.
 * There's no smart checking of the filter parameters. If the filters return no exit nodes, then the script does nothing.
 * If the host is currently connected to an exit node, that node will not be reselected. If however, that results in an empty set of available nodes, the script will do nothing. For example, if there is only 1 node in Malmo and the user is connected to it, entering the parameter `--city mma` will do nothing because there's no other node to select.
