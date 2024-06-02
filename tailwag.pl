@@ -8,7 +8,9 @@ use Getopt::Long;
 my $country;
 my $city;
 my $region;
+my $named;
 my $debug;
+my $off;
 
 # Define regions
 my %regions = (
@@ -20,8 +22,22 @@ GetOptions(
     "country=s" => \$country,
     "city=s"    => \$city,
     "region=s"  => \$region,
-    "debug" => \$debug
+    "named=s"  => \$named,
+    "debug" => \$debug,
+    "off" => \$off
 );
+
+if ($off) {
+  print "exit node off";
+  exec "tailscale set --exit-node=";
+  exit;
+}
+
+if ($named) {
+  print "exit-node=$named";
+  exec "tailscale set --exit-node=$named --exit-node-allow-lan-access";
+  exit;
+}
 
 # Run the tailscale command and capture the output
 my $exitnodes_list = `tailscale exit-node list`;
