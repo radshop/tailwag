@@ -50,6 +50,9 @@ my @hostnames;
 
 # Iterate through each line (skipping the first and last lines)
 for my $line (@lines[2..$#lines-2]) {
+    # skip empty line
+    next if($line=~/^\s*$/);
+
     # Split the line into columns
     my @columns = split /\s{2,}/, $line;
 
