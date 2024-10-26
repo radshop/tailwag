@@ -44,12 +44,14 @@ my $exitnodes_list = `tailscale exit-node list`;
 
 # Split the output into lines
 my @lines = split /\n/, $exitnodes_list;
+@lines = grep(/^\s*\d+/, @lines);
 
 # Initialize an arry to store matching hostnames
 my @hostnames;
 
 # Iterate through each line (skipping the first and last lines)
-for my $line (@lines[2..$#lines-2]) {
+#for my $line (@lines[2..$#lines-2]) {
+for my $line (@lines) {
     # skip empty line
     next if($line=~/^\s*$/);
 
