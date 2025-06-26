@@ -1,0 +1,29 @@
+# Tailwag Configuration File
+# Place this file at ~/.tailwag.conf to define custom regions
+#
+# Format: region_name = regex_pattern
+# The regex pattern is matched against the hostname of exit nodes
+#
+# Built-in regions (can be overridden):
+#   uswest  = ^us-(lax|sjc|phx|sea|slc|den)
+#   useast  = ^us-(nyc|bos|atl|mia|ord|dfw)
+#   europe  = ^(gb|de|fr|nl|ch|se|no|fi|dk|es|it)
+#   asia    = ^(jp|sg|hk|tw|kr)
+#   oceania = ^(au|nz)
+
+# Custom region examples:
+
+# US Central states
+uscentral = ^us-(ord|dfw|iah|mci|stl)
+
+# Nordic countries only
+nordics = ^(se|no|fi|dk)
+
+# Major US tech hubs
+techcities = ^us-(sjc|sea|aus|bos)
+
+# English-speaking countries
+anglosphere = ^(us|gb|ca|au|nz)
+
+# Your frequently used cities
+favorites = ^(us-lax|gb-lon|nl-ams)

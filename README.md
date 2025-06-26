@@ -4,12 +4,22 @@ This Perl script is intended for use on Linux systems where the Tailscale client
 
 Tailscale users can view the list of available exit nodes for their host by running `tailscale exit-node list`.
 
-### Optional parameters
+### Usage
 
-* --country [country code]
-* --city [city code]
-* --region [uswest] (currently uswest is the only region defined)
-* --debug (flag to output the list of hostnames)
+```
+tailwag [options]
+
+Options:
+  --country=CODE     Filter by country code (e.g., us, gb, de)
+  --city=CODE        Filter by city code (e.g., lax, nyc, lon)
+  --region=NAME      Filter by predefined region (e.g., uswest, europe)
+  --named=HOSTNAME   Use specific exit node by hostname
+  --off              Turn off exit node usage
+  --list-regions     List all available regions
+  --debug            Show debug information
+  --help, -h         Show brief help message
+  --man              Show full documentation
+```
 
 ### Notes:
 
@@ -22,13 +32,41 @@ Tailscale users can view the list of available exit nodes for their host by runn
 
 ### Examples:
 
-* `sudo ./tailwag.pl` randomly selects an online node from any country.
-* `sudo ./tailwag.pl --country us` randomly selects an online node from the USA.
-* `sudo ./tailwag.pl --city lax` randomly selects an online node with the city code of 'lax', which is Los Angeles.
-* `sudo ./tailwag.pl --country gb --city lax` does nothing because there is no 'lax' city in the UK.
+* `sudo tailwag` randomly selects an online node from any country.
+* `sudo tailwag --country us` randomly selects an online node from the USA.
+* `sudo tailwag --city lax` randomly selects an online node with the city code of 'lax', which is Los Angeles.
+* `sudo tailwag --region europe` randomly selects a node from European countries.
+* `sudo tailwag --list-regions` shows all available regions.
+* `sudo tailwag --named us-lax-wg-301.mullvad.ts.net` connects to a specific node.
+* `sudo tailwag --off` disconnects from exit node (returns to direct connection).
+* `tailwag --help` shows usage information.
 
 This project is for use by customers of Tailscale. The developer not affiliated with Tailscale or Mullvad in any way other than as a licensed user.
 
-### ToDo
+### Configuration
 
-* Move the region definition out of hard-coded text to a user editable config file.
+Tailwag now supports custom regions via a configuration file at `~/.tailwag.conf`. The script comes with several built-in regions:
+
+* **uswest**: US West Coast (lax, sjc, phx, sea, slc, den)
+* **useast**: US East Coast (nyc, bos, atl, mia, ord, dfw)
+* **europe**: European countries (gb, de, fr, nl, ch, se, no, fi, dk, es, it)
+* **asia**: Asian countries (jp, sg, hk, tw, kr)
+* **oceania**: Australia and New Zealand (au, nz)
+
+You can override these or add your own regions by creating `~/.tailwag.conf`:
+
+```bash
+# Custom regions in ~/.tailwag.conf
+favorites = ^(us-lax|gb-lon|nl-ams)
+nordics = ^(se|no|fi|dk)
+techcities = ^us-(sjc|sea|aus|bos)
+```
+
+See `.tailwag.conf.example` for more examples.
+
+### Requirements
+
+* Perl 5.x (standard on all Linux distributions)
+* Tailscale installed and authenticated
+* For Mullvad nodes: active Mullvad account linked to Tailscale
+* Sudo/admin privileges to change exit nodes
